@@ -7,10 +7,11 @@ interface UserRequest {
     email: string;
     oldPassword: string;
     password: string;
+    avatar_id: number;
 }
 
 class UpdateUserService {
-    async execute({ id, name, email, oldPassword, password }: UserRequest) {
+    async execute({ id, name, email, oldPassword, password, avatar_id }: UserRequest) {
 
         const userExists = await prismaClient.users.findFirst({
             where: {
@@ -42,14 +43,20 @@ class UpdateUserService {
             data: {
                 name: name,
                 email: email,
-                password_hash: passWordHash
+                password_hash: passWordHash,
+                avatar_id: avatar_id
             },
             select: {
                 id: true,
                 name: true,
                 email: true,
-                provider: true
-
+                provider: true,
+                avatar: {
+                    select: {
+                        name: true,
+                        path: true
+                    }
+                }
             }
         }) 
 

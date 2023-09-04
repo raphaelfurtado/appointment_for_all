@@ -21,7 +21,7 @@ class UpdateUserController {
             return res.status(400).json({error: "Validation fails"})
         }
 
-        const {name, email, oldPassword, password} = req.body;
+        const {name, email, oldPassword, password, avatar_id} = req.body;
 
         const updateUserService = new UpdateUserService();
 
@@ -30,7 +30,8 @@ class UpdateUserController {
             name, 
             email,
             oldPassword,
-            password
+            password,
+            avatar_id
         });
 
         return res.json(user);

@@ -11,13 +11,26 @@ datasource db {
 }
 
 model Users {
-  id    Int     @id @default(autoincrement())
-  name  String
-  email String  @unique
+  id            Int      @id @default(autoincrement())
+  name          String
+  email         String   @unique
   password_hash String
-  provider String @default("user")
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  provider      String   @default("user")
+  avatar        Files?   @relation(fields: [avatar_id], references: [id], onUpdate: Cascade ,onDelete: SetNull)
+  avatar_id     Int?     @map("avatar_id")
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
 
   @@map("users")
+}
+
+model Files {
+  id         Int      @id @default(autoincrement())
+  name       String
+  path       String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  Users      Users[]
+
+  @@map("files")
 }
