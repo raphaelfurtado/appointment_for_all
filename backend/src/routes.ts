@@ -9,6 +9,7 @@ import { isAutheticated } from "./middlewares/isAuthenticated";
 import { UpdateUserController } from "./controllers/user/UpdateUserController";
 import { FileController } from "./controllers/user/FileController";
 import { ReadProviderController } from "./controllers/provider/ReadProviderController";
+import { CreateAppointmentController } from "./controllers/appointment/CreateAppointmentController";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp/uploads"));
@@ -36,5 +37,8 @@ router.post("/files", isAutheticated, upload.single("file"), new FileController(
 
 // PROVIDER
 router.get("/providers", isAutheticated, new ReadProviderController().handle);
+
+// APPOINTMENT
+router.post("/appointments", isAutheticated, new CreateAppointmentController().handle);
 
 export { router }

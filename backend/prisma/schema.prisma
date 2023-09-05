@@ -42,7 +42,7 @@ model Files {
 model Appointments {
   id          Int      @id @default(autoincrement())
   date        DateTime
-  canceled_at DateTime
+  canceled_at DateTime?
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 
