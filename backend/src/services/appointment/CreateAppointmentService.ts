@@ -1,14 +1,15 @@
 import { hash } from "bcryptjs";
 import prismaClient from "../../prisma";
-import { isBefore, parseISO, startOfHour } from "date-fns";
-interface AppointmentsProps{
+import { format, isBefore, parseISO, startOfHour } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
+interface AppointmentsProps {
     provider_id: number;
     date: string;
     user_id: number;
 }
 
-class CreateAppointmentService  {
-    async execute({provider_id, date, user_id}: AppointmentsProps) {
+class CreateAppointmentService {
+    async execute({ provider_id, date, user_id }: AppointmentsProps) {
 
         const isProvider = await prismaClient.users.findFirst({
             where: {
@@ -17,11 +18,11 @@ class CreateAppointmentService  {
             }
         });
 
-        if(!isProvider) throw new Error("You can only create appointments with providers");
+        if (!isProvider) throw new Error("You can only create appointments with providers");
 
         const hourStart = startOfHour(parseISO(date));
 
-        if(isBefore(hourStart, new Date())) throw new Error("Past dates are not permitted");
+        if (isBefore(hourStart, new Date())) throw new Error("Past dates are not permitted");
 
         const checkAvailability = await prismaClient.appointments.findFirst({
             where: {
@@ -31,9 +32,9 @@ class CreateAppointmentService  {
             }
         });
 
-        if(checkAvailability) throw new Error("Appointment date is not available");
+        if (checkAvailability) throw new Error("Appointment date is not available");
 
-        const user = await prismaClient.appointments.create({
+        const appointment = await prismaClient.appointments.create({
             data: {
                 user_id: user_id,
                 provider_id: provider_id,
@@ -41,8 +42,29 @@ class CreateAppointmentService  {
             }
         });
 
-        return user;
+        const user = await prismaClient.users.findFirst({
+            where: {
+                id: user_id
+            }
+        });
+
+        const formattedDate = format(
+            hourStart,
+            "'dia' dd 'de' MMMM', às' H:mm'h' ",
+            {
+                locale: ptBR
+            }
+        );
+
+        await prismaClient.notifications.create({
+            data: {
+                message: `Novo agendamento de ${user.name} para ${formattedDate}`,
+                user_id: provider_id,
+            }
+})
+
+return appointment;
     }
 }
 
-export { CreateAppointmentService  }
+export { CreateAppointmentService }

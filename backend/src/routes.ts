@@ -12,6 +12,8 @@ import { ReadProviderController } from "./controllers/provider/ReadProviderContr
 import { CreateAppointmentController } from "./controllers/appointment/CreateAppointmentController";
 import { ListAppointmentController } from "./controllers/appointment/ListAppointmentController";
 import { ListScheduleController } from "./controllers/schedule/ListScheduleController";
+import { ListNotificationController } from "./controllers/notification/ListNotificationController";
+import { UpdateNotificationController } from "./controllers/notification/UpdateNotificationController";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp/uploads"));
@@ -47,6 +49,8 @@ router.get("/appointments", isAutheticated, new ListAppointmentController().hand
 //SCHEDULE
 router.get("/schedules", isAutheticated, new ListScheduleController().handle);
 
-
+//NOTIFICATIONS
+router.get("/notifications", isAutheticated, new ListNotificationController().handle);
+router.put("/notifications", isAutheticated, new UpdateNotificationController().handle);
 
 export { router }
