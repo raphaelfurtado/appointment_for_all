@@ -16,10 +16,14 @@ model Users {
   email         String   @unique
   password_hash String
   provider      String   @default("user")
-  avatar        Files?   @relation(fields: [avatar_id], references: [id], onUpdate: Cascade ,onDelete: SetNull)
+  avatar        Files?   @relation(fields: [avatar_id], references: [id], onUpdate: Cascade, onDelete: SetNull)
   avatar_id     Int?     @map("avatar_id")
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
+
+  appointments_user Appointments[] @relation("user_appointments")
+
+  appointments_provider Appointments[] @relation("provider_appointments")
 
   @@map("users")
 }
@@ -33,4 +37,20 @@ model Files {
   Users      Users[]
 
   @@map("files")
+}
+
+model Appointments {
+  id          Int      @id @default(autoincrement())
+  date        DateTime
+  canceled_at DateTime
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  user_id Int?
+  user    Users? @relation("user_appointments", fields: [user_id], references: [id])
+
+  provider_id Int?
+  provider    Users? @relation("provider_appointments", fields: [provider_id], references: [id])
+
+  @@map("appointments")
 }
