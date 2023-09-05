@@ -1,6 +1,5 @@
 import * as Yup from "yup";
 import { Request, Response } from "express";
-import { ReadProviderService } from "../../services/provider/ReadProviderService";
 import { CreateAppointmentService } from "../../services/appointment/CreateAppointmentService";
 
 class CreateAppointmentController {
