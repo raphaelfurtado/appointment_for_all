@@ -8,6 +8,8 @@ import { DetailUserController } from "./controllers/user/DetailUserController";
 import { isAutheticated } from "./middlewares/isAuthenticated";
 import { UpdateUserController } from "./controllers/user/UpdateUserController";
 import { FileController } from "./controllers/user/FileController";
+import { CreateProviderController } from "./controllers/provider/CreateProviderController";
+import { ReadProviderController } from "./controllers/provider/ReadProviderController";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp/uploads"));
@@ -32,5 +34,9 @@ router.post("/session", new AuthUserController().handle);
 router.get("/me", isAutheticated, new DetailUserController().handle);
 router.put("/update", isAutheticated, new UpdateUserController().handle);
 router.post("/files", isAutheticated, upload.single("file"), new FileController().handle);
+
+// PROVIDER
+router.post("/providers", isAutheticated, new CreateProviderController().handle);
+router.get("/providers", isAutheticated, new ReadProviderController().handle);
 
 export { router }
