@@ -35,6 +35,11 @@ class ListAvailableController {
             "19:00",
         ];
 
+        const serviceTime = [
+            "00:40",
+            "00:30"
+        ]
+
         const available = schedule.map(time => {
             const [hour, minute] = time.split(":");
             const value = setSeconds(setMinutes(setHours(searchDate, Number(hour)), Number(minute)),
@@ -44,7 +49,7 @@ class ListAvailableController {
                 time,
                 value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
                 available: isAfter(value, new Date()) &&
-                    !appointmentsAvailable.find(appointment => format(appointment.date, "HH:mm") === time)
+                    !appointmentsAvailable.find(appointment => format(appointment.date, "HH:mm") === time) 
 
             }
         });

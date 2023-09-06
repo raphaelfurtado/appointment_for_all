@@ -40,11 +40,13 @@ model Files {
 }
 
 model Appointments {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   date        DateTime
   canceled_at DateTime?
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  price       Float
+  observation String?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
 
   user_id Int?
   user    Users? @relation("user_appointments", fields: [user_id], references: [id])
@@ -52,16 +54,45 @@ model Appointments {
   provider_id Int?
   provider    Users? @relation("provider_appointments", fields: [provider_id], references: [id])
 
+  service    Services @relation(fields: [service_id], references: [id])
+  service_id Int
+
   @@map("appointments")
 }
 
 model Notifications {
-  id          Int      @id @default(autoincrement())
-  user_id Int
-  message  String
-  read     Boolean  @default(false)
+  id        Int      @id @default(autoincrement())
+  user_id   Int
+  message   String
+  read      Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-   
+
   @@map("notifications")
+}
+
+model CategoryServices {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String?
+  services    Services[]
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+
+  @@map("categoryServices")
+}
+
+model Services {
+  id                Int              @id @default(autoincrement())
+  name              String
+  description       String?
+  price             Float
+  duration          Int
+  categoryService   CategoryServices @relation(fields: [categoryServiceId], references: [id])
+  categoryServiceId Int
+  created_at        DateTime         @default(now())
+  updated_at        DateTime         @updatedAt
+  appointments      Appointments[]
+
+  @@map("services")
 }

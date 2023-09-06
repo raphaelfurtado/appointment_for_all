@@ -13,6 +13,15 @@ class AuthUserService {
         const user = await prismaClient.users.findFirst({
             where: {
                 email: email
+            },
+            include: {
+                avatar: {
+                    select: {
+                        id: true,
+                        name: true,
+                        path: true
+                    }
+                }
             }
         });
 
@@ -38,7 +47,9 @@ class AuthUserService {
             id: user.id,
             name: user.name,
             email: user.email,
-            token: token
+            token: token,
+            provider: user.provider,
+            avatar: user.avatar
         }
     }
 }

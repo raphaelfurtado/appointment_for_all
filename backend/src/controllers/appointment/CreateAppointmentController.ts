@@ -14,14 +14,16 @@ class CreateAppointmentController {
             return res.status(400).json({error: "Validation fails"})
         }
 
-        const { provider_id, date } = req.body;
+        const { provider_id, date, observation, service_id } = req.body;
 
         const createAppointmentService = new CreateAppointmentService();
 
         const appointment = await createAppointmentService.execute({
             provider_id,
             date,
-            user_id: parseInt(req.user_id)
+            user_id: parseInt(req.user_id),
+            observation,
+            service_id
         });
 
         return res.json(appointment);

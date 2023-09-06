@@ -34,6 +34,13 @@ class ListScheduleService {
             },
             orderBy: {
                 date: "asc"
+            },
+            include:{
+                user: {
+                    select: {
+                        name: true
+                    }
+                }
             }
         });
 
