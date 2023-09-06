@@ -39,7 +39,7 @@ class CreateAppointmentService {
                 user_id: user_id,
                 provider_id: provider_id,
                 date: date
-            }
+            },
         });
 
         const user = await prismaClient.users.findFirst({
@@ -61,9 +61,9 @@ class CreateAppointmentService {
                 message: `Novo agendamento de ${user.name} para ${formattedDate}`,
                 user_id: provider_id,
             }
-})
+        })
 
-return appointment;
+        return appointment;
     }
 }
 

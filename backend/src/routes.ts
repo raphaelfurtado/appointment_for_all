@@ -15,6 +15,7 @@ import { ListScheduleController } from "./controllers/schedule/ListScheduleContr
 import { ListNotificationController } from "./controllers/notification/ListNotificationController";
 import { UpdateNotificationController } from "./controllers/notification/UpdateNotificationController";
 import { CancelAppointmentController } from "./controllers/appointment/CancelAppointmentController";
+import { ListAvailableController } from "./controllers/available/ListAvailableController";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp/uploads"));
@@ -42,6 +43,7 @@ router.post("/files", isAutheticated, upload.single("file"), new FileController(
 
 // PROVIDER
 router.get("/providers", isAutheticated, new ReadProviderController().handle);
+router.get("/providers/:providerId/available", isAutheticated, new ListAvailableController().handle);
 
 // APPOINTMENT
 router.post("/appointments", isAutheticated, new CreateAppointmentController().handle);
