@@ -35,11 +35,6 @@ class ListAvailableController {
             "19:00",
         ];
 
-        const serviceTime = [
-            "00:40",
-            "00:30"
-        ]
-
         const available = schedule.map(time => {
             const [hour, minute] = time.split(":");
             const value = setSeconds(setMinutes(setHours(searchDate, Number(hour)), Number(minute)),
