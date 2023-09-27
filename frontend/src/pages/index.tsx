@@ -1,11 +1,33 @@
+import { useContext, FormEvent, useState } from "react";
 import Head from "next/head";
+import Link from "next/link";
 import styles from "../../styles/Home.module.scss";
 import logoImg from "../../public/vercel.svg";
 import Image from "next/image";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function Home() {
+
+  const { signIn } = useContext(AuthContext)
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+
+  async function handleLogin(event: FormEvent) {
+    event.preventDefault();
+
+    let data = {
+      email,
+      password
+    }
+
+    await signIn(data);
+  }
+
   return (
     <>
       <Head>
@@ -15,24 +37,29 @@ export default function Home() {
         <Image src={logoImg} alt="Logo barber" />
 
         <div className={styles.login}>
-          <form action="">
+          <form onSubmit={handleLogin}>
             <Input
               type="text"
               placeholder="Digite seu e-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               type="password"
               placeholder="Digite sua senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <Button 
+            <Button
               type="submit"
-              loading={false}
+              loading={loading}
             >
               Acessar
             </Button>
           </form>
-
-          <a className={styles.text}>Não possui uma conta? Cadastre-se</a>
+          <Link href="/signup" className={styles.text}>
+            Não possui uma conta? Cadastre-se
+          </Link>
         </div>
       </div>
     </>
