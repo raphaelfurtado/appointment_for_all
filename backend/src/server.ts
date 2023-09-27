@@ -26,4 +26,8 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     });
 });
 
+app.get('/', (_req: Request, res: Response) => {
+    return res.send('Bien venido!')
+  })
+
 app.listen(3333, () => console.log('Servidor online!'))
