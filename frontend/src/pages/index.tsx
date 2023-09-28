@@ -7,6 +7,7 @@ import Image from "next/image";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import { AuthContext } from "../contexts/AuthContext";
+import { toast } from "react-toastify";
 
 export default function Home() {
 
@@ -21,7 +22,7 @@ export default function Home() {
     event.preventDefault();
 
     if(email === "" || password === ""){
-      alert("Preencha os dados");
+      toast.warn("Preencha os dados");
       return;
     }
 
