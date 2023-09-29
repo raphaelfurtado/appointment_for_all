@@ -11,8 +11,15 @@ class DetailUserService {
             select: {
                 id: true,
                 name: true,
-                email: true
-            }
+                email: true,
+                avatar:{
+                    select:{
+                        id: true,
+                        name: true,
+                        path: true
+                    }
+                }
+            },
         });
 
         return user;

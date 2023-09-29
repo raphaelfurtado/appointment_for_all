@@ -10,6 +10,8 @@ export function Header() {
 
     const { signOut, user } = useContext(AuthContext);
 
+    //console.log("http://localhost:3333/files/"+user?.avatar.path)
+
 
     return (
         <header className={styles.headerContainer}>
@@ -37,8 +39,7 @@ export function Header() {
                     </div>
 
                     <img className={styles.avatar}
-                        src="/raphael.jpg"
-                        
+                        src={`http://localhost:3333/files/${user?.avatar.path}`}
                         alt="Foto do perfil"
                     />
                 </aside>

@@ -16,6 +16,13 @@ type UserProps = {
     id: string;
     name: string;
     email: string;
+    avatar: Avatar;
+}
+
+type Avatar = {
+    id: string;
+    name: string;
+    path: string;
 }
 
 type SignInProps = {
@@ -53,19 +60,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
     useEffect(() => {
         const { "@nextauth.token": token } = parseCookies();
 
-        if(token){
+        if (token) {
+
             api.get("/me").then(response => {
-                const { id, name, email } = response.data;
+                const { id, name, email, avatar } = response.data;
+
+                console.log(response)
 
                 setUser({
                     id,
                     name,
-                    email
+                    email,
+                    avatar
                 });
             })
-            .catch(() => {
-                signOut();
-            });
+                .catch(() => {
+                    signOut();
+                });
         }
     }, []);
 
@@ -76,9 +87,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 password
             })
 
-            console.log(response)
-
-            const { id, name, token } = response.data;
+            const { id, name, token, avatar } = response.data;
 
             setCookie(undefined, "@nextauth.token", token, {
                 maxAge: 60 * 60 * 24 * 30, //Expira em 1 mês
@@ -88,7 +97,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setUser({
                 id,
                 name,
-                email
+                email,
+                avatar
             });
 
             api.defaults.headers["Authorization"] = `Bearer ${token}`;
