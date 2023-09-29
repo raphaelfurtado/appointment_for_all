@@ -1,9 +1,19 @@
+import Head from "next/head";
 import { canSSRAuth } from "../../utils/canSSRAuth";
+import Header from "../header";
 
 function Dashboard() {
-    return (<>
-        <h1>Dashboard</h1>
-    </>);
+    return (
+        <>
+            <Head>
+                <title>Painel - Appointment</title>
+            </Head>
+            <div>
+                <Header />
+                <h1>Painel</h1>
+            </div>
+        </>
+    );
 }
 
 export default Dashboard;
