@@ -2,11 +2,12 @@ import axios, { AxiosError } from "axios";
 import { parseCookies } from "nookies";
 import { AuthTokenError } from "./errors/AuthTokenError";
 import { signOut } from "../contexts/AuthContext";
+import 'dotenv/config';
 
 export function setupAPIClient(ctx = undefined){
     let cookies = parseCookies(ctx);
 
-    const apiUrl = process.env.API_URL || 'http://localhost:3333';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
     const api = axios.create({
         baseURL: apiUrl,

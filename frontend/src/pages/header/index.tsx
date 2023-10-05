@@ -2,22 +2,23 @@ import { useContext } from "react";
 import Link from "next/link";
 import styles from "./styles.module.scss";
 
-import { FiLogOut } from "react-icons/fi";
+import dotenv from 'dotenv/config';
 import { AuthContext } from "../../contexts/AuthContext";
 import Image from "next/image";
 
 export function Header() {
 
     const { signOut, user } = useContext(AuthContext);
-    const apiUrl = process.env.API_URL || 'http://localhost:3333';
 
-    //console.log("http://localhost:3333/files/"+user?.avatar.path)
+    //const apiUrl = process.env.API_URL || 'http://localhost:3333';
+
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
     return (
         <header className={styles.headerContainer}>
             <div className={styles.headerContent}>
                 <Link href="/dashboard">
-                    <Image src="/vercel.svg" width={190} height={60} alt="Logo"/>
+                    <Image src="/vercel.svg" width={190} height={60} alt="Logo" />
                 </Link>
 
                 <nav className={styles.menuNav}>
