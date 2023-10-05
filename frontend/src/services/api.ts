@@ -6,8 +6,11 @@ import { signOut } from "../contexts/AuthContext";
 export function setupAPIClient(ctx = undefined){
     let cookies = parseCookies(ctx);
 
+    const apiUrl = process.env.API_URL || 'http://localhost:3333';
+
     const api = axios.create({
-        baseURL: "https://appointment-raphaelfurtado.vercel.app",
+        baseURL: apiUrl,
+        //baseURL: "https://appointment-raphaelfurtado.vercel.app",
         //baseURL: "http://localhost:3333",
         headers: {
             Authorization: `Bearer ${cookies["@nextauth.token"]}`

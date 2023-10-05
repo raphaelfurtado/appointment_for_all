@@ -9,9 +9,9 @@ import Image from "next/image";
 export function Header() {
 
     const { signOut, user } = useContext(AuthContext);
+    const apiUrl = process.env.API_URL || 'http://localhost:3333';
 
     //console.log("http://localhost:3333/files/"+user?.avatar.path)
-
 
     return (
         <header className={styles.headerContainer}>
@@ -39,7 +39,7 @@ export function Header() {
                     </div>
 
                     <img className={styles.avatar}
-                        src={`http://localhost:3333/files/${user?.avatar.path}`}
+                        src={`${apiUrl}/files/${user?.avatar === null ? 'avatar.webp' : user?.avatar.path}`}
                         alt="Foto do perfil"
                     />
                 </aside>
