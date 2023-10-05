@@ -11,8 +11,6 @@ export function setupAPIClient(ctx = undefined){
 
     const api = axios.create({
         baseURL: apiUrl,
-        //baseURL: "https://appointment-raphaelfurtado.vercel.app",
-        //baseURL: "http://localhost:3333",
         headers: {
             Authorization: `Bearer ${cookies["@nextauth.token"]}`
         }
