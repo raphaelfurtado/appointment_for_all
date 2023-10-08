@@ -6,12 +6,12 @@ interface UserRequest {
     name: string,
     email: string;
     oldPassword: string;
-    password: string;
+    // password: string;
     avatar_id: number;
 }
 
 class UpdateUserService {
-    async execute({ id, name, email, oldPassword, password, avatar_id }: UserRequest) {
+    async execute({ id, name, email, oldPassword /*, password*/, avatar_id }: UserRequest) {
 
         const userExists = await prismaClient.users.findFirst({
             where: {
@@ -30,11 +30,12 @@ class UpdateUserService {
         }
 
         const passwordMatch = await compare(oldPassword, userExists.password_hash);
-        const passWordHash = await hash(password, 8);
+        // const passWordHash = await hash(password, 8); com confirmação de senha
+        const passWordHash = await hash(oldPassword, 8);
 
-        if(oldPassword && !passwordMatch) {
-            throw new Error("Password does not match!");
-        }
+        // if(oldPassword && !passwordMatch) {
+        //     throw new Error("Password does not match!");
+        // }
 
         const user = await prismaClient.users.update({
             where:{

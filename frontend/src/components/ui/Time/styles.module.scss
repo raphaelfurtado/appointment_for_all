@@ -1,0 +1,21 @@
+$bg-gray: #999;
+$bg-roxo: #7159c1;
+
+.time {
+    padding: 20px;
+    border-radius: 4px;
+    background: #FFF;
+
+    strong {
+        display: block;
+        color: $bg-roxo;
+        font-size: 20px;
+        font-weight: normal;
+    }
+
+    span {
+        display: block;
+        margin-top: 3px;
+        color: #666;
+    }
+}
