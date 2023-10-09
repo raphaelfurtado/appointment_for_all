@@ -16,7 +16,7 @@ exports.UpdateUserService = void 0;
 const bcryptjs_1 = require("bcryptjs");
 const prisma_1 = __importDefault(require("../../prisma"));
 class UpdateUserService {
-    execute({ id, name, email, oldPassword, password, avatar_id }) {
+    execute({ id, name, email, oldPassword /*, password*/, avatar_id }) {
         return __awaiter(this, void 0, void 0, function* () {
             const userExists = yield prisma_1.default.users.findFirst({
                 where: {
@@ -33,10 +33,11 @@ class UpdateUserService {
                     throw new Error("User already exists!");
             }
             const passwordMatch = yield (0, bcryptjs_1.compare)(oldPassword, userExists.password_hash);
-            const passWordHash = yield (0, bcryptjs_1.hash)(password, 8);
-            if (oldPassword && !passwordMatch) {
-                throw new Error("Password does not match!");
-            }
+            // const passWordHash = await hash(password, 8); com confirmação de senha
+            const passWordHash = yield (0, bcryptjs_1.hash)(oldPassword, 8);
+            // if(oldPassword && !passwordMatch) {
+            //     throw new Error("Password does not match!");
+            // }
             const user = yield prisma_1.default.users.update({
                 where: {
                     id: Number(id)
