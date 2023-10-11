@@ -16,6 +16,7 @@ type UserProps = {
     id: string;
     name: string;
     email: string;
+    provider: string;
     avatar: Avatar;
 }
 
@@ -63,7 +64,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         if (token) {
 
             api.get("/me").then(response => {
-                const { id, name, email, avatar } = response.data;
+                const { id, name, email, provider, avatar } = response.data;
 
                 // console.log(response)
 
@@ -71,6 +72,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     id,
                     name,
                     email,
+                    provider,
                     avatar
                 });
             })
@@ -87,7 +89,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 password
             })
 
-            const { id, name, token, avatar } = response.data;
+            const { id, name, token, provider, avatar } = response.data;
 
             setCookie(undefined, "@nextauth.token", token, {
                 maxAge: 60 * 60 * 24 * 30, //Expira em 1 mês
@@ -98,6 +100,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 id,
                 name,
                 email,
+                provider,
                 avatar
             });
 

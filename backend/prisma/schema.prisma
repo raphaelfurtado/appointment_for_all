@@ -23,7 +23,8 @@ model Users {
 
   appointments_user Appointments[] @relation("user_appointments")
 
-  appointments_provider Appointments[] @relation("provider_appointments")
+  appointments_provider Appointments[]         @relation("provider_appointments")
+  employeeWorkSchedule  EmployeeWorkSchedule[]
 
   @@map("users")
 }
@@ -95,4 +96,15 @@ model Services {
   appointments      Appointments[]
 
   @@map("services")
+}
+
+model EmployeeWorkSchedule {
+  id         Int       @id @default(autoincrement())
+  dayOfWeek  String // Pode ser uma enumeração ou número
+  startTime  String
+  endTime    String
+  breakStart String?
+  breakEnd   String?
+  user       Users     @relation(fields: [userId], references: [id])
+  userId     Int
 }

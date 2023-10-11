@@ -18,7 +18,7 @@ class ListAvailableService  {
                     gte: startOfDay(date),
                     // Coloque o valor máximo do intervalo aqui
                     lte: endOfDay(date)
-                }
+                },
             }
         });
 

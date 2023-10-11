@@ -12,6 +12,7 @@ class DetailUserService {
                 id: true,
                 name: true,
                 email: true,
+                provider: true,
                 avatar:{
                     select:{
                         id: true,

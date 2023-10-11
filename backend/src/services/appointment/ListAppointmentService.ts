@@ -21,7 +21,7 @@ class ListAppointmentService {
                 canceled_at: null
             },
             orderBy: {
-                canceled_at: "asc"
+                date: "desc"
             },
             take: pageSize,
             skip: skip,
