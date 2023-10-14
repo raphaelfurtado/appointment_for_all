@@ -52,7 +52,8 @@ export default function Provider() {
             }
 
             const dataRange = timeRange.map(hour => {
-                const checkDate = setMilliseconds(setSeconds(setMinutes(setHours(date, Number(hour)), 0), 0), 0);
+                const [hourParsed, minuteParsed] = hour.split(":").map(Number); // Dividindo a string e convertendo em números
+                const checkDate = setMilliseconds(setSeconds(setMinutes(setHours(date, hourParsed), minuteParsed), 0), 0);
                 const compareDate = utcToZonedTime(checkDate, timezone);
 
                 return {

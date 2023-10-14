@@ -27,7 +27,7 @@ class ListAvailableService {
                         gte: (0, date_fns_1.startOfDay)(date),
                         // Coloque o valor máximo do intervalo aqui
                         lte: (0, date_fns_1.endOfDay)(date)
-                    }
+                    },
                 }
             });
             return appointments;
