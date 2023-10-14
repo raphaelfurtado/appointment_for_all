@@ -33,16 +33,30 @@ export default function Provider() {
             const response = await api.get("/schedules", {
                 params: { date }
             });
-            //console.log(response.data);
 
             const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-            const data = range.map(hour => {
-                const checkDate = setMilliseconds(setSeconds(setMinutes(setHours(date, hour), 0), 0), 0);
+            const startTime = "08:00";
+            const endTime = "20:00";
+            const increment = 40;
+
+            const timeRange = [];
+            let currentTime = startTime;
+
+            while (currentTime <= endTime) {
+                timeRange.push(currentTime);
+                const [hours, minutes] = currentTime.split(":").map(Number);
+                const nextMinutes = minutes + increment;
+                const nextHours = hours + Math.floor(nextMinutes / 60);
+                currentTime = `${nextHours.toString().padStart(2, "0")}:${(nextMinutes % 60).toString().padStart(2, "0")}`;
+            }
+
+            const dataRange = timeRange.map(hour => {
+                const checkDate = setMilliseconds(setSeconds(setMinutes(setHours(date, Number(hour)), 0), 0), 0);
                 const compareDate = utcToZonedTime(checkDate, timezone);
 
                 return {
-                    time: `${hour}:00`,
+                    time: `${hour}`,
                     past: isBefore(compareDate, new Date()),
                     appointment: response.data.find((a: { date: string; }) =>
                         isEqual(parseISO(a.date), compareDate),
@@ -50,7 +64,7 @@ export default function Provider() {
                 }
             });
 
-            setSchedule(data);
+            setSchedule(dataRange);
         }
         loadSchedule();
     }, [date]);
