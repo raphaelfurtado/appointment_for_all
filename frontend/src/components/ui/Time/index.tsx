@@ -1,37 +1,27 @@
 import React from "react";
-import styles from "./styles.module.scss";
 
-interface TimeProps{
+interface TimeProps {
     hour: string;
     calaborator: string;
     status: boolean;
     past: boolean;
 }
 
-export default function Time({hour, calaborator, status, past}: TimeProps) {
+export default function Time({ hour, calaborator, status, past }: TimeProps) {
 
-    let colorHour = "";
-    let colorColaborador = "";
-    let colorCard = "";
-
-    if(status){
-        colorHour = "#999";
-        colorColaborador = "#999";
-    } else {
-        colorHour = "#7159c1";
-        colorColaborador = "#666";
-    }
-    
-    if(past){
-        colorCard = "0.6";
-    } else {
-        colorCard = "1";
-    }
+    const hourClasses = status ? "text-gray-500" : "text-indigo-700";
+    const colabClasses = status ? "bg-green-200 text-green-700" : "bg-red-200 text-red-700";
 
     return (
-        <div className={styles.time} style={{opacity: colorCard}}>
-            <strong style={{color: colorHour}}>{hour}</strong>
-            <span style={{color: colorColaborador}}>{calaborator}</span>
-        </div>
+        <>
+            <div className="lg:col-span-1 col-span-1 bg-white flex justify-center w-full border p-4 rounded-lg">
+                <div className="flex flex-col w-full pb-4">
+                    <p className={`text-2x1 font-bold ${hourClasses}`}>{hour} </p>
+                </div>
+                <p className={`${colabClasses} flex justify-center items-center p-2 rounded-lg`}>
+                    <span className={`${colabClasses} text-lg`}>{calaborator}</span>
+                </p>
+            </div>
+        </>
     );
 }

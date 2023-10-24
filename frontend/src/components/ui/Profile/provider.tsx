@@ -22,6 +22,7 @@ export default function Provider() {
 
     const [schedule, setSchedule] = useState<ScheduleItem[]>([]);
     const [date, setDate] = useState(new Date);
+    const [pastDate, setPastDate] = useState<boolean>();
 
     const dateFormatted = useMemo(
         () => format(date, "d 'de' MMMM", { locale: pt }),
@@ -56,6 +57,8 @@ export default function Provider() {
                 const checkDate = setMilliseconds(setSeconds(setMinutes(setHours(date, hourParsed), minuteParsed), 0), 0);
                 const compareDate = utcToZonedTime(checkDate, timezone);
 
+                setPastDate(isBefore(compareDate, new Date()));
+
                 return {
                     time: `${hour}`,
                     past: isBefore(compareDate, new Date()),
@@ -65,6 +68,7 @@ export default function Provider() {
                 }
             });
 
+            // console.log(pastDate)
             setSchedule(dataRange);
         }
         loadSchedule();
@@ -101,7 +105,7 @@ export default function Provider() {
                                     <Time
                                         key={time.time}
                                         hour={time.time}
-                                        calaborator={time.appointment ? time.appointment.user.name : "Em aberto"}
+                                        calaborator={time.appointment ? time.appointment.user.name : "Disponível"}
                                         status={!time.appointment}
                                         past={time.past}
                                     />
