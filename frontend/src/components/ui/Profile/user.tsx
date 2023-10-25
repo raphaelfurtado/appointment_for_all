@@ -1,4 +1,4 @@
-import Header from "../../../pages/header";
+import Header from "../../../pages/header_";
 
 export default function User() {
     return (

@@ -8,7 +8,7 @@ import Admin from "../../components/ui/Profile/admin";
 import User from "../../components/ui/Profile/user";
 import Layout from "../layout";
 
-function Dashboard() {
+function MyAppointments() {
 
     const { user } = useContext(AuthContext);
 
@@ -22,7 +22,7 @@ function Dashboard() {
 
     const ContainerProfile: React.FC<ContainerProfileProps> = ({ user }) => {
         if (user?.provider === "provider") {
-            return "Provider";
+            return <Provider />;
         } else if (user?.provider === "admin") {
             return <Admin />;
         } else {
@@ -43,7 +43,7 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;
+export default MyAppointments;
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
 

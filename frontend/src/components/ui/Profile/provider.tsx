@@ -1,5 +1,5 @@
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
-import Header from "../../../pages/header";
+import Header from "../../../pages/header_";
 import styles from "./stylesProvider.module.scss";
 import Time from "../Time";
 
@@ -84,15 +84,14 @@ export default function Provider() {
 
     return (
         <div>
-            <Header />
             <div className={styles.container}>
                 <div>
                     <button type="button" onClick={handlePrevDay}>
-                        <MdChevronLeft size={36} color="#FFF" />
+                        <MdChevronLeft size={36} color="#000" />
                     </button>
-                    <strong>{dateFormatted}</strong>
+                    <strong className="text-2x1 font-bold text-black text-xl">{dateFormatted}</strong>
                     <button type="button" onClick={handleNextDay}>
-                        <MdChevronRight size={36} color="#FFF" />
+                        <MdChevronRight size={36} color="#000" />
                     </button>
                 </div>
             </div>

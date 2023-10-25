@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { canSSRAuth } from "../../utils/canSSRAuth";
-import Header from "../header";
+import Header from "../header_";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import styles from "./styles.module.scss";
