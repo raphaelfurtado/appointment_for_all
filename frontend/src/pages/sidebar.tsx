@@ -13,16 +13,16 @@ export default function Sidebar() {
     // const { data: session } = useSession();
 
     const menus = [
-        { name: "Dashboard", link: "/app/dashboard", icon: MdOutlineDashboard, role: "ADMIN" },
-        { name: "Meu Perfil", link: "/app/user", icon: AiOutlineUser, role: "ADMIN" },
-        { name: "Usuários", link: "/app/users", icon: FiUsers, role: "ADMIN" },
-        { name: "Meus agendamentos", link: "/myAppointments", icon: AiOutlineSchedule, role: "USER" },
-        { name: "Agendamentos", link: "/app/appointments", icon: AiOutlineSchedule, role: "ADMIN" },
-        { name: "analytics", link: "/app/home", icon: TbReportAnalytics, margin: true, role: "ADMIN" },
-        { name: "File Manager", link: "/app/home", icon: FiFolder, role: "USER" },
-        { name: "Cart", link: "/app/home", icon: FiShoppingCart, role: "ADMIN" },
-        { name: "Saved", link: "/app/home", icon: AiOutlineHeart, margin: true, role: "USER" },
-        { name: "Setting", link: "/app/home", icon: RiSettings4Line, role: "ADMIN" },
+        { name: "Dashboard", link: "/app/dashboard", icon: MdOutlineDashboard, id: 1 },
+        { name: "Meu Perfil", link: "/app/user", icon: AiOutlineUser, id: 2 },
+        { name: "Usuários", link: "/app/users", icon: FiUsers, id: 3 },
+        { name: "Meus agendamentos", link: "/myAppointments", icon: AiOutlineSchedule, id: 4 },
+        { name: "Agendamentos", link: "/app/appointments", icon: AiOutlineSchedule, id: 5 },
+        { name: "analytics", link: "/app/home", icon: TbReportAnalytics, margin: true, id: 6 },
+        { name: "File Manager", link: "/app/home", icon: FiFolder, id: 7 },
+        { name: "Cart", link: "/app/home", icon: FiShoppingCart, id: 8 },
+        { name: "Saved", link: "/app/home", icon: AiOutlineHeart, margin: true, id: 9 },
+        { name: "Setting", link: "/app/home", icon: RiSettings4Line, id: 10 },
     ];
 
     const [open, setOpen] = useState(false);
@@ -59,34 +59,32 @@ export default function Sidebar() {
                 </div>
                 <div className="mt-4 flex flex-col gap-4 relative">
                     {menus?.map((menu, i) => (
-                        <>
-                            
-
-                                <Link
-                                    href={menu?.link}
-                                    key={i}
-                                    className={` ${menu?.margin && "mt-4"
-                                        } group flex items-center text-sm  gap-3.5 font-medium hover:bg-gray-200 rounded-md`}
+                        <div key={i}>
+                            <Link
+                                href={menu?.link}
+                                key={menu.id}
+                                className={` ${menu?.margin && "mt-4"
+                                    } group flex items-center text-sm  gap-3.5 font-medium hover:bg-gray-200 rounded-md`}
+                            >
+                                <div className="bg-gray-100 text-zinc-700 hover:bg-gray-200 cursor-pointer p-2 rounded-lg">
+                                    {React.createElement(menu?.icon, { size: "20" })}
+                                </div>
+                                <h2
+                                    style={{ transitionDelay: `${i + 3}00ms`, }}
+                                    className={`whitespace-pre duration-500 ${!open && "opacity-0 translate-x-28 overflow-hidden"
+                                        }  text-zinc-700`}
                                 >
-                                    <div className="bg-gray-100 text-zinc-700 hover:bg-gray-200 cursor-pointer p-2 rounded-lg">
-                                        {React.createElement(menu?.icon, { size: "20" })}
-                                    </div>
-                                    <h2
-                                        style={{ transitionDelay: `${i + 3}00ms`, }}
-                                        className={`whitespace-pre duration-500 ${!open && "opacity-0 translate-x-28 overflow-hidden"
-                                            }  text-zinc-700`}
-                                    >
-                                        {menu?.name}
-                                    </h2>
-                                    <h2
-                                        className={`${open && "hidden"
-                                            } absolute left-48 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit  `}
-                                    >
-                                        {menu?.name}
-                                    </h2>
-                                </Link>
-                            
-                        </>
+                                    {menu?.name}
+                                </h2>
+                                <h2
+                                    className={`${open && "hidden"
+                                        } absolute left-48 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit  `}
+                                >
+                                    {menu?.name}
+                                </h2>
+                            </Link>
+
+                        </div>
                     ))}
                 </div>
             </div>

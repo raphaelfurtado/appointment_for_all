@@ -16,6 +16,7 @@ model Users {
   email         String   @unique
   password_hash String
   provider      String   @default("user")
+  phone         String?
   avatar        Files?   @relation(fields: [avatar_id], references: [id], onUpdate: Cascade, onDelete: SetNull)
   avatar_id     Int?     @map("avatar_id")
   created_at    DateTime @default(now())

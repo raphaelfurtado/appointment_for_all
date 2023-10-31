@@ -44,7 +44,15 @@ class ListScheduleService {
                 include: {
                     user: {
                         select: {
-                            name: true
+                            name: true,
+                            email: true,
+                            phone: true
+                        }
+                    },
+                    service: {
+                        select: {
+                            name: true,
+                            duration: true
                         }
                     }
                 }

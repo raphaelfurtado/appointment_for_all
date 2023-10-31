@@ -1,16 +1,18 @@
-
 import Head from "next/head";
 import { canSSRAuth } from "../../utils/canSSRAuth";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import Provider from "../../components/ui/Profile/provider";
-import Admin from "../../components/ui/Profile/admin";
-import User from "../../components/ui/Profile/user";
+import Provider from "../dash/provider";
+import Admin from "../dash/admin";
+import User from "../dash/user";
 import Layout from "../layout";
+import { useRouter } from "next/router";
 
 function Dashboard() {
 
+    const router = useRouter();
     const { user } = useContext(AuthContext);
+
 
     type UserProfile = {
         provider: string;
@@ -22,11 +24,14 @@ function Dashboard() {
 
     const ContainerProfile: React.FC<ContainerProfileProps> = ({ user }) => {
         if (user?.provider === "provider") {
-            return "Provider";
+            router.push('/dash/provider');
         } else if (user?.provider === "admin") {
-            return <Admin />;
+            router.push('/dash/admin');
+            //return <Admin />;
+        } else if (user?.provider === "user"){
+            router.push('/dash/user');
         } else {
-            return <User />;
+            return "-";
         }
     };
 

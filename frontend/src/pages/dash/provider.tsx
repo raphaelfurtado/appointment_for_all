@@ -1,13 +1,14 @@
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
-import Header from "../../../pages/header_";
+import Header from "../Header";
 import styles from "./stylesProvider.module.scss";
-import Time from "../Time";
+import Time from "../../components/ui/Time";
 
 import { useContext, useEffect, useMemo, useState } from "react";
 import { format, subDays, addDays, setHours, setMinutes, setSeconds, isBefore, isEqual, parseISO, setMilliseconds } from "date-fns";
 import { pt } from "date-fns/locale";
 import { utcToZonedTime } from "date-fns-tz";
-import { api } from "../../../services/apiClient";
+import { api } from "../../services/apiClient";
+import Layout from "../layout";
 
 // Pode retornar do backend - range de horários
 const range = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
@@ -68,7 +69,6 @@ export default function Provider() {
                 }
             });
 
-            // console.log(pastDate)
             setSchedule(dataRange);
         }
         loadSchedule();
@@ -83,7 +83,7 @@ export default function Provider() {
     }
 
     return (
-        <div>
+        <Layout>
             <div className={styles.container}>
                 <div>
                     <button type="button" onClick={handlePrevDay}>
@@ -107,6 +107,10 @@ export default function Provider() {
                                         calaborator={time.appointment ? time.appointment.user.name : "Disponível"}
                                         status={!time.appointment}
                                         past={time.past}
+                                        email={time.appointment?.user.email}
+                                        phone={time.appointment?.user.phone}
+                                        nameService={time.appointment?.service.name}
+                                        duration={time.appointment?.service.duration}
                                     />
                                 );
                             }
@@ -116,6 +120,6 @@ export default function Provider() {
 
                 </ul>
             </div>
-        </div>
+        </Layout>
     );
 }

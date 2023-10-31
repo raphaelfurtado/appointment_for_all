@@ -47,6 +47,7 @@ export const AuthContext = createContext({} as AuthContextData);
 
 export function signOut() {
     try {
+        
         destroyCookie(undefined, "@nextauth.token");
         Router.push("/");
     } catch (error) {
@@ -108,7 +109,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
             toast.success("Logado com sucesso!");
 
-            Router.push("/dashboard");
+            if (provider === "provider") {
+                Router.push('/dash/provider');
+            } else if (provider === "admin") {
+                Router.push('/dash/admin');
+            } else if (provider === "user"){
+                Router.push('/dash/user');
+            }
+
+            
         } catch (error) {
             toast.error("Erro ao logar");
             console.log("Erro ao acessar", error);

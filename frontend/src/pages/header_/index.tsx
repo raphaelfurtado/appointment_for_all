@@ -1,12 +1,11 @@
 import { useContext } from "react";
 import Link from "next/link";
 import styles from "./styles.module.scss";
-
-import dotenv from 'dotenv/config';
 import { AuthContext } from "../../contexts/AuthContext";
 import Image from "next/image";
+import { FiLogOut } from "react-icons/fi";
 
-export function Header() {
+export function HeaderOld() {
 
     const { signOut, user } = useContext(AuthContext);
 
@@ -34,7 +33,7 @@ export function Header() {
                         <Link href="/profile">Meu perfil</Link>
 
                         <a onClick={signOut}>
-                            {/* <FiLogOut color="#FFF" size={24} /> */}
+                            <FiLogOut color="#FFF" size={24} />
                             Sair
                         </a>
                     </div>
@@ -50,4 +49,4 @@ export function Header() {
     );
 }
 
-export default Header;
+export default HeaderOld;

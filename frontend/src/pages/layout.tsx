@@ -1,7 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import Sidebar from "./sidebar";
-import { Header } from "./Header";
-
+import { Header } from "../pages/Header"
 type LayoutProps = {
     children: ReactNode;
 };

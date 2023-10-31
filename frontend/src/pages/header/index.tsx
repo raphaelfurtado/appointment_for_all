@@ -24,10 +24,10 @@ export function Header() {
                         <h2>Bem vindo(a), <strong>{user.name}</strong>!</h2>
                     </span>
                     <br />
-                    <a onClick={signOut}>
+                    <button onClick={signOut}>
                         {/* <FiLogOut color="#FFF" size={24} /> */}
                         Sair
-                    </a>
+                    </button>
                 </>
             )}
 

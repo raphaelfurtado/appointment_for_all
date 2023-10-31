@@ -3,9 +3,9 @@ import Head from "next/head";
 import { canSSRAuth } from "../../utils/canSSRAuth";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import Provider from "../../components/ui/Profile/provider";
-import Admin from "../../components/ui/Profile/admin";
-import User from "../../components/ui/Profile/user";
+import Provider from "../dash/provider";
+import Admin from "../dash/admin";
+import User from "../dash/user";
 import Layout from "../layout";
 
 function MyAppointments() {
@@ -36,9 +36,8 @@ function MyAppointments() {
                 <title>Painel - Appointment</title>
             </Head>
 
-            <Layout>
-                <ContainerProfile user={user} />
-            </Layout>
+            <ContainerProfile user={user} />
+
         </>
     );
 }
