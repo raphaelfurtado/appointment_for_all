@@ -16,6 +16,8 @@ import { ListNotificationController } from "./controllers/notification/ListNotif
 import { UpdateNotificationController } from "./controllers/notification/UpdateNotificationController";
 import { CancelAppointmentController } from "./controllers/appointment/CancelAppointmentController";
 import { ListAvailableController } from "./controllers/available/ListAvailableController";
+import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
+import { ListCategoryController } from "./controllers/category/ListCategoryController";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp/uploads"));
@@ -56,5 +58,9 @@ router.get("/schedules", isAutheticated, new ListScheduleController().handle);
 //NOTIFICATIONS
 router.get("/notifications", isAutheticated, new ListNotificationController().handle);
 router.put("/notifications", isAutheticated, new UpdateNotificationController().handle);
+
+//CATEGORY
+router.post("/category", isAutheticated, new CreateCategoryController().handle);
+router.get("/categories", isAutheticated, new ListCategoryController().handle);
 
 export { router }

@@ -31,6 +31,8 @@ const ListNotificationController_1 = require("./controllers/notification/ListNot
 const UpdateNotificationController_1 = require("./controllers/notification/UpdateNotificationController");
 const CancelAppointmentController_1 = require("./controllers/appointment/CancelAppointmentController");
 const ListAvailableController_1 = require("./controllers/available/ListAvailableController");
+const CreateCategoryController_1 = require("./controllers/category/CreateCategoryController");
+const ListCategoryController_1 = require("./controllers/category/ListCategoryController");
 const router = (0, express_1.Router)();
 exports.router = router;
 const upload = (0, multer_1.default)(multer_2.default.upload("./tmp/uploads"));
@@ -62,3 +64,6 @@ router.get("/schedules", isAuthenticated_1.isAutheticated, new ListScheduleContr
 //NOTIFICATIONS
 router.get("/notifications", isAuthenticated_1.isAutheticated, new ListNotificationController_1.ListNotificationController().handle);
 router.put("/notifications", isAuthenticated_1.isAutheticated, new UpdateNotificationController_1.UpdateNotificationController().handle);
+//CATEGORY
+router.post("/category", isAuthenticated_1.isAutheticated, new CreateCategoryController_1.CreateCategoryController().handle);
+router.get("/categories", isAuthenticated_1.isAutheticated, new ListCategoryController_1.ListCategoryController().handle);
