@@ -3,6 +3,11 @@ import { FormEvent, useState, useContext, useEffect } from "react";
 import Layout from "../layout";
 import { canSSRAuth } from "../../utils/canSSRAuth";
 import { api } from "../../services/apiClient";
+import Modal from "../../components/ui/Modal";
+import ButtonForm from "../../components/ui/ButtonForm";
+import { toast } from "react-toastify";
+import InputForm from "../../components/ui/InputForm";
+import MenuIcon from "../../components/ui/MenuIcon";
 
 interface Category {
     id: number;
@@ -17,9 +22,44 @@ export default function Category() {
 
     const [categories, setCategories] = useState<Category[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [categoryName, setCategoryName] = useState('');
+    const dropdownItems = ['Editar', 'Excluir'];
+
+
+    const openModal = () => setModalOpen(true);
+    const closeModal = () => setModalOpen(false);
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
+    };
+
+    const handleSaveSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const response = await api.post(`/category`, {
+                name: categoryName
+            });
+
+            if (response.status !== 200) {
+                //throw new Error(`Erro ao cadastrar categoria: ${response.status} - ${response.statusText}`);
+                toast.error("Erro ao cadastrar categoria!");
+            }
+
+            handleSearchSubmit(e);
+
+            toast.success("Registro salvo com sucesso!");
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error(String(error));
+            }
+        }
+
+        setCategoryName('');
+        closeModal();
     };
 
     const handleSearchSubmit = async (e: React.FormEvent) => {
@@ -40,6 +80,22 @@ export default function Category() {
             } else {
                 console.error(String(error));
             }
+        }
+    };
+
+    const handleMenuClick = (item: string, categoryId: number) => {
+        switch (item) {
+            case 'Editar':
+                // Lógica para editar a categoria
+                alert(`Editar categoria com ID ${categoryId}`);
+                break;
+            case 'Excluir':
+                // Lógica para excluir a categoria
+                alert(`Excluir categoria com ID ${categoryId}`);
+                break;
+            default:
+                // Ação padrão ou qualquer outra ação que você queira adicionar
+                break;
         }
     };
 
@@ -93,16 +149,16 @@ export default function Category() {
                                             value={searchTerm}
                                             onChange={handleSearchChange}
                                             className="mt-1 p-2 w-full border rounded-md"
-                                            required
                                         />
                                     </div>
 
-                                    <button
-                                        type="submit"
-                                        className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
-                                    >
-                                        Pesquisar
-                                    </button>
+
+                                    <div className="flex items-center  border-gray-200 rounded-b dark:border-gray-600">
+                                        <ButtonForm type="submit">Pesquisar</ButtonForm>
+                                        <ButtonForm onClick={openModal} category="green">
+                                            Adicionar
+                                        </ButtonForm>
+                                    </div>
 
                                 </form>
                             </div>
@@ -122,6 +178,9 @@ export default function Category() {
                                             <th scope="col" className="px-6 py-3">
                                                 Descrição
                                             </th>
+                                            <th scope="col" className="px-6 py-3">
+                                                Ações
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -136,6 +195,12 @@ export default function Category() {
                                                 <td className="px-6 py-4">
                                                     {category.description}
                                                 </td>
+                                                <td>
+                                                    <MenuIcon
+                                                        items={dropdownItems}
+                                                        onItemClick={(item) => handleMenuClick(item, category.id)}
+                                                    />
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -147,9 +212,39 @@ export default function Category() {
 
                 </div>
             </Layout>
+
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+                <div className="p-1 md:p-1 text-center">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        Criar nova categoria
+                    </h3>
+                </div>
+
+                <form onSubmit={handleSaveSubmit} className="p-4 md:p-5">
+                    <div className="grid gap-4 mb-4 grid-cols-2">
+                        <div className="col-span-2">
+                            <InputForm
+                                placeholder="Nome da categoria"
+                                value={categoryName}
+                                onChange={(e) => setCategoryName(e.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                        <ButtonForm
+                            type="submit"
+                        >
+                            Salvar
+                        </ButtonForm>
+                        <ButtonForm category="light" onClick={closeModal}>Cancelar</ButtonForm>
+                    </div>
+                </form>
+            </Modal>
         </>
     )
 }
+
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
 
