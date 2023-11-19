@@ -18,6 +18,8 @@ import { CancelAppointmentController } from "./controllers/appointment/CancelApp
 import { ListAvailableController } from "./controllers/available/ListAvailableController";
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
 import { ListCategoryController } from "./controllers/category/ListCategoryController";
+import { UpdateCategoryController } from "./controllers/category/UpdateCategoryController";
+import { GetCategoryByIdController } from "./controllers/category/GetCategoryByIdController";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp/uploads"));
@@ -62,5 +64,7 @@ router.put("/notifications", isAutheticated, new UpdateNotificationController().
 //CATEGORY
 router.post("/category", isAutheticated, new CreateCategoryController().handle);
 router.get("/categories", isAutheticated, new ListCategoryController().handle);
+router.put("/category/update/:id", isAutheticated, new UpdateCategoryController().handle);
+router.get("/categoryById", isAutheticated, new GetCategoryByIdController().handle);
 
 export { router }

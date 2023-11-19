@@ -21,6 +21,7 @@ export default function Category() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
     const [categories, setCategories] = useState<Category[]>([]);
+    const [category, setCategory] = useState();
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [isModalOpen, setModalOpen] = useState(false);
     const [categoryName, setCategoryName] = useState('');
@@ -83,11 +84,33 @@ export default function Category() {
         }
     };
 
-    const handleMenuClick = (item: string, categoryId: number) => {
+    const handleMenuClick = async (item: string, categoryId: number) => {
         switch (item) {
             case 'Editar':
-                // Lógica para editar a categoria
-                alert(`Editar categoria com ID ${categoryId}`);
+                try {
+                    const response = await api.get(`/categoryById?id=${categoryId}`);
+                    if (response.status !== 200) {
+                        throw new Error(`Erro ao obter categorias: ${response.status} - ${response.statusText}`);
+                    }
+
+                    const data = await response.data;
+
+                    setCategory(data);
+
+                    console.log(data);
+
+                    
+                    //1 - Abrir Modal para editar categoria => openModalEdit();
+                    //2 - Salvar edição
+
+                } catch (error) {
+                    if (error instanceof Error) {
+                        console.error(error.message);
+                    } else {
+                        console.error(String(error));
+                    }
+                }
+
                 break;
             case 'Excluir':
                 // Lógica para excluir a categoria

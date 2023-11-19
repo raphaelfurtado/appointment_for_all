@@ -19,6 +19,9 @@ class ListCategoryService {
                     },
                 ],
             },
+            orderBy:{
+                name: 'asc'
+            }
         });
 
         return categories;

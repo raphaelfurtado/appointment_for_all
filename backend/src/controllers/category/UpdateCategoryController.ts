@@ -1,12 +1,12 @@
 import * as Yup from "yup";
 import { Request, Response } from "express";
-import { CreateCategoryService } from "../../services/category/CreateCategoryService";
+import { UpdateCategoryService } from "../../services/category/UpdateCategoryService";
 
-class CreateCategoryController {
+class UpdateCategoryController {
     async handle(req: Request, res: Response) {
 
         const schema = Yup.object().shape({
-            name: Yup.string().required("Nome é obrigatório"),
+            name: Yup.string().required(),
             description: Yup.string()
         });
 
@@ -14,11 +14,13 @@ class CreateCategoryController {
             return res.status(400).json({error: "Validation fails"})
         }
 
+        const categoryId = parseInt(req.params.id);
         const { name, description } = req.body;
 
-        const createCategoryService = new CreateCategoryService();
+        const updateCategoryService = new UpdateCategoryService();
 
-        const category = await createCategoryService.execute({
+        const category = await updateCategoryService.execute({
+            id: categoryId,
             name,
             description
         });
@@ -27,4 +29,4 @@ class CreateCategoryController {
     }
 }
 
-export { CreateCategoryController }
+export { UpdateCategoryController }
