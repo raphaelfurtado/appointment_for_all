@@ -5,7 +5,7 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { RiSettings4Line } from "react-icons/ri";
 import { TbCategory, TbCategory2, TbCategoryFilled, TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineUser, AiOutlineHeart, AiFillSchedule, AiOutlineSchedule } from "react-icons/ai";
-import { FiMessageSquare, FiFolder, FiShoppingCart, FiUsers } from "react-icons/fi";
+import { FiMessageSquare, FiFolder, FiShoppingCart, FiUsers, FiActivity, FiAnchor, FiBatteryCharging, FiBookmark } from "react-icons/fi";
 import Link from "next/link";
 
 export default function Sidebar() {
@@ -19,9 +19,9 @@ export default function Sidebar() {
         { name: "Meus agendamentos", link: "/myAppointments", icon: AiOutlineSchedule, id: 4 },
         { name: "Agendamentos", link: "/app/appointments", icon: AiOutlineSchedule, id: 5 },
         { name: "Categorias", link: "/category", icon: TbCategoryFilled, margin: true, id: 6 },
+        { name: "Serviços", link: "/service", icon: FiBookmark, id: 8 },
         { name: "analytics", link: "/app/home", icon: TbReportAnalytics, margin: true, id: 6 },
         { name: "File Manager", link: "/app/home", icon: FiFolder, id: 7 },
-        { name: "Cart", link: "/app/home", icon: FiShoppingCart, id: 8 },
         { name: "Saved", link: "/app/home", icon: AiOutlineHeart, margin: true, id: 9 },
         { name: "Setting", link: "/app/home", icon: RiSettings4Line, id: 10 },
     ];

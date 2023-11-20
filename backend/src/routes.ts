@@ -20,6 +20,9 @@ import { CreateCategoryController } from "./controllers/category/CreateCategoryC
 import { ListCategoryController } from "./controllers/category/ListCategoryController";
 import { UpdateCategoryController } from "./controllers/category/UpdateCategoryController";
 import { GetCategoryByIdController } from "./controllers/category/GetCategoryByIdController";
+import { CreateServiceController } from "./controllers/service/CreateServiceController";
+import { ListServiceController } from "./controllers/service/ListServiceController";
+import { GetServiceByIdController } from "./controllers/service/GetServiceByIdController";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp/uploads"));
@@ -66,5 +69,10 @@ router.post("/category", isAutheticated, new CreateCategoryController().handle);
 router.get("/categories", isAutheticated, new ListCategoryController().handle);
 router.put("/category/update/:id", isAutheticated, new UpdateCategoryController().handle);
 router.get("/categoryById", isAutheticated, new GetCategoryByIdController().handle);
+
+//SERVICE
+router.post("/service", isAutheticated, new CreateServiceController().handle);
+router.get("/services", isAutheticated, new ListServiceController().handle);
+router.get("/serviceById", isAutheticated, new GetServiceByIdController().handle);
 
 export { router }

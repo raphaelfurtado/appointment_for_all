@@ -1,14 +1,10 @@
-import { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
-import styles from "../Input/styles.module.scss";
+import { InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> { }
 
 export default function InputForm({ ...rest }: InputProps) {
     return (
         <input
-            type="text"
-            name="name"
-            id="name"
             className="
         bg-gray-50 
         border 
