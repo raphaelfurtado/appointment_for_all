@@ -77,6 +77,7 @@ model CategoryServices {
   id          Int        @id @default(autoincrement())
   name        String
   description String?
+  active      Boolean
   services    Services[]
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt

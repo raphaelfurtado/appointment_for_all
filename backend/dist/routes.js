@@ -33,6 +33,8 @@ const CancelAppointmentController_1 = require("./controllers/appointment/CancelA
 const ListAvailableController_1 = require("./controllers/available/ListAvailableController");
 const CreateCategoryController_1 = require("./controllers/category/CreateCategoryController");
 const ListCategoryController_1 = require("./controllers/category/ListCategoryController");
+const UpdateCategoryController_1 = require("./controllers/category/UpdateCategoryController");
+const GetCategoryByIdController_1 = require("./controllers/category/GetCategoryByIdController");
 const router = (0, express_1.Router)();
 exports.router = router;
 const upload = (0, multer_1.default)(multer_2.default.upload("./tmp/uploads"));
@@ -67,3 +69,5 @@ router.put("/notifications", isAuthenticated_1.isAutheticated, new UpdateNotific
 //CATEGORY
 router.post("/category", isAuthenticated_1.isAutheticated, new CreateCategoryController_1.CreateCategoryController().handle);
 router.get("/categories", isAuthenticated_1.isAutheticated, new ListCategoryController_1.ListCategoryController().handle);
+router.put("/category/update/:id", isAuthenticated_1.isAutheticated, new UpdateCategoryController_1.UpdateCategoryController().handle);
+router.get("/categoryById", isAuthenticated_1.isAutheticated, new GetCategoryByIdController_1.GetCategoryByIdController().handle);

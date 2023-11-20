@@ -8,32 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ListCategoryService = void 0;
-const prisma_1 = __importDefault(require("../../prisma"));
-class ListCategoryService {
-    execute({ search }) {
+exports.GetCategoryByIdController = void 0;
+const GetCategoryByIdService_1 = require("../../services/category/GetCategoryByIdService");
+class GetCategoryByIdController {
+    handle(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const categories = yield prisma_1.default.categoryServices.findMany({
-                where: {
-                    OR: [
-                        {
-                            name: {
-                                contains: search,
-                                mode: 'insensitive'
-                            },
-                        },
-                    ],
-                },
-                orderBy: {
-                    name: 'asc'
-                }
+            const { id } = req.query;
+            const parsedId = Number(id);
+            const categories = new GetCategoryByIdService_1.GetCategoryByIdService();
+            const categoriesList = yield categories.execute({
+                id: parsedId
             });
-            return categories;
+            return res.json(categoriesList);
         });
     }
 }
-exports.ListCategoryService = ListCategoryService;
+exports.GetCategoryByIdController = GetCategoryByIdController;

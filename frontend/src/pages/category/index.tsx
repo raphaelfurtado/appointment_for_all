@@ -8,11 +8,14 @@ import ButtonForm from "../../components/ui/ButtonForm";
 import { toast } from "react-toastify";
 import InputForm from "../../components/ui/InputForm";
 import MenuIcon from "../../components/ui/MenuIcon";
+import Indicators from "../../components/ui/Indicators";
+import Checkbox from "../../components/ui/CheckBox";
 
 interface Category {
     id: number;
     name: string;
     description: string;
+    active: boolean;
 }
 
 
@@ -21,15 +24,20 @@ export default function Category() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
     const [categories, setCategories] = useState<Category[]>([]);
-    const [category, setCategory] = useState();
+    const [category, setCategory] = useState<Category>();
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [isModalOpen, setModalOpen] = useState(false);
+    const [isModalOpenEdit, setModalOpenEdit] = useState(false);
     const [categoryName, setCategoryName] = useState('');
+    const [checkboxValue, setCheckboxValue] = useState(false);
     const dropdownItems = ['Editar', 'Excluir'];
 
 
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
+
+    const openModalEdit = () => setModalOpenEdit(true);
+    const closeModalEdit = () => setModalOpenEdit(false);
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
@@ -61,6 +69,33 @@ export default function Category() {
 
         setCategoryName('');
         closeModal();
+    };
+
+    const handleEditSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const response = await api.put(`/category/update/${category?.id}`, {
+                name: category?.name,
+                active: checkboxValue
+            });
+
+            if (response.status !== 200) {
+                toast.error("Erro ao cadastrar categoria!");
+            }
+
+            handleSearchSubmit(e);
+
+            toast.success("Registro alterado com sucesso!");
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error(String(error));
+            }
+        }
+
+        closeModalEdit();
     };
 
     const handleSearchSubmit = async (e: React.FormEvent) => {
@@ -97,11 +132,7 @@ export default function Category() {
 
                     setCategory(data);
 
-                    console.log(data);
-
-                    
-                    //1 - Abrir Modal para editar categoria => openModalEdit();
-                    //2 - Salvar edição
+                    openModalEdit();
 
                 } catch (error) {
                     if (error instanceof Error) {
@@ -121,6 +152,10 @@ export default function Category() {
                 break;
         }
     };
+
+    const handleCheckboxChange = (value: boolean) => {
+        setCheckboxValue(value);
+      };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -199,7 +234,7 @@ export default function Category() {
                                                 Nome
                                             </th>
                                             <th scope="col" className="px-6 py-3">
-                                                Descrição
+                                                Situação
                                             </th>
                                             <th scope="col" className="px-6 py-3">
                                                 Ações
@@ -216,7 +251,7 @@ export default function Category() {
                                                     {category.name}
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    {category.description}
+                                                    <Indicators active={category.active} />
                                                 </td>
                                                 <td>
                                                     <MenuIcon
@@ -264,6 +299,39 @@ export default function Category() {
                     </div>
                 </form>
             </Modal>
+
+            {category && <Modal isOpen={isModalOpenEdit} onClose={closeModalEdit}>
+                <div className="p-1 md:p-1 text-center">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        Editar categoria
+                    </h3>
+                </div>
+
+                <form onSubmit={handleEditSubmit} className="p-4 md:p-5">
+                    <div className="grid gap-4 mb-4 grid-cols-2">
+                        <div className="col-span-2">
+                            <InputForm
+                                placeholder="Nome da categoria"
+                                value={category.name}
+                                onChange={(e) => setCategory({ ...category, name: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div className="col-span-2">
+                            <Checkbox active={category.active} onChange={handleCheckboxChange}/>
+                        </div>
+                    </div>
+                    <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                        <ButtonForm
+                            type="submit"
+                        >
+                            Salvar
+                        </ButtonForm>
+                        <ButtonForm category="light" onClick={closeModalEdit}>Cancelar</ButtonForm>
+                    </div>
+                </form>
+            </Modal>}
+
         </>
     )
 }

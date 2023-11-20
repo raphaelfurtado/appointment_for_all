@@ -32,22 +32,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateCategoryController = void 0;
+exports.UpdateCategoryController = void 0;
 const Yup = __importStar(require("yup"));
-const CreateCategoryService_1 = require("../../services/category/CreateCategoryService");
-class CreateCategoryController {
+const UpdateCategoryService_1 = require("../../services/category/UpdateCategoryService");
+class UpdateCategoryController {
     handle(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const schema = Yup.object().shape({
-                name: Yup.string().required("Nome é obrigatório"),
+                name: Yup.string().required(),
                 description: Yup.string()
             });
             if (!(yield schema.isValid(req.body))) {
                 return res.status(400).json({ error: "Validation fails" });
             }
+            const categoryId = parseInt(req.params.id);
             const { name, description } = req.body;
-            const createCategoryService = new CreateCategoryService_1.CreateCategoryService();
-            const category = yield createCategoryService.execute({
+            const updateCategoryService = new UpdateCategoryService_1.UpdateCategoryService();
+            const category = yield updateCategoryService.execute({
+                id: categoryId,
                 name,
                 description
             });
@@ -55,4 +57,4 @@ class CreateCategoryController {
         });
     }
 }
-exports.CreateCategoryController = CreateCategoryController;
+exports.UpdateCategoryController = UpdateCategoryController;

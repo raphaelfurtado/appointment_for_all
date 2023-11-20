@@ -12,28 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ListCategoryService = void 0;
+exports.GetCategoryByIdService = void 0;
 const prisma_1 = __importDefault(require("../../prisma"));
-class ListCategoryService {
-    execute({ search }) {
+class GetCategoryByIdService {
+    execute({ id }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const categories = yield prisma_1.default.categoryServices.findMany({
+            const categories = yield prisma_1.default.categoryServices.findUnique({
                 where: {
-                    OR: [
-                        {
-                            name: {
-                                contains: search,
-                                mode: 'insensitive'
-                            },
-                        },
-                    ],
-                },
-                orderBy: {
-                    name: 'asc'
+                    id: id
                 }
             });
             return categories;
         });
     }
 }
-exports.ListCategoryService = ListCategoryService;
+exports.GetCategoryByIdService = GetCategoryByIdService;

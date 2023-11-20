@@ -7,7 +7,8 @@ class UpdateCategoryController {
 
         const schema = Yup.object().shape({
             name: Yup.string().required(),
-            description: Yup.string()
+            description: Yup.string(),
+            active: Yup.boolean(),
         });
 
         if(!(await schema.isValid(req.body))){
@@ -15,14 +16,15 @@ class UpdateCategoryController {
         }
 
         const categoryId = parseInt(req.params.id);
-        const { name, description } = req.body;
+        const { name, description, active } = req.body;
 
         const updateCategoryService = new UpdateCategoryService();
 
         const category = await updateCategoryService.execute({
             id: categoryId,
             name,
-            description
+            description,
+            active
         });
 
         return res.json(category);

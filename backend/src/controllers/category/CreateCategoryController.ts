@@ -7,20 +7,22 @@ class CreateCategoryController {
 
         const schema = Yup.object().shape({
             name: Yup.string().required("Nome é obrigatório"),
-            description: Yup.string()
+            description: Yup.string(),
+            active: Yup.boolean(),
         });
 
         if(!(await schema.isValid(req.body))){
             return res.status(400).json({error: "Validation fails"})
         }
 
-        const { name, description } = req.body;
+        const { name, description, active } = req.body;
 
         const createCategoryService = new CreateCategoryService();
 
         const category = await createCategoryService.execute({
             name,
-            description
+            description,
+            active
         });
 
         return res.json(category);
