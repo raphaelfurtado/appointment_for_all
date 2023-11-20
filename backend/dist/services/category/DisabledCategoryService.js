@@ -29,7 +29,8 @@ class UpdateCategoryService {
                 select: {
                     id: true,
                     name: true,
-                    description: true
+                    description: true,
+                    active: true
                 }
             });
             return category;

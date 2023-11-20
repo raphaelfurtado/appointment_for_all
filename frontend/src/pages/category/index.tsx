@@ -30,7 +30,7 @@ export default function Category() {
     const [isModalOpenEdit, setModalOpenEdit] = useState(false);
     const [categoryName, setCategoryName] = useState('');
     const [checkboxValue, setCheckboxValue] = useState(false);
-    const dropdownItems = ['Editar', 'Excluir'];
+    const dropdownItems = ['Editar'];
 
 
     const openModal = () => setModalOpen(true);
@@ -48,11 +48,11 @@ export default function Category() {
 
         try {
             const response = await api.post(`/category`, {
-                name: categoryName
+                name: categoryName,
+                active: checkboxValue
             });
 
             if (response.status !== 200) {
-                //throw new Error(`Erro ao cadastrar categoria: ${response.status} - ${response.statusText}`);
                 toast.error("Erro ao cadastrar categoria!");
             }
 
@@ -287,6 +287,9 @@ export default function Category() {
                                 onChange={(e) => setCategoryName(e.target.value)}
                                 required
                             />
+                        </div>
+                        <div className="col-span-2">
+                            <Checkbox active={true} onChange={handleCheckboxChange}/>
                         </div>
                     </div>
                     <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">

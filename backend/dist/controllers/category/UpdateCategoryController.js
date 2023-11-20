@@ -40,18 +40,20 @@ class UpdateCategoryController {
         return __awaiter(this, void 0, void 0, function* () {
             const schema = Yup.object().shape({
                 name: Yup.string().required(),
-                description: Yup.string()
+                description: Yup.string(),
+                active: Yup.boolean(),
             });
             if (!(yield schema.isValid(req.body))) {
                 return res.status(400).json({ error: "Validation fails" });
             }
             const categoryId = parseInt(req.params.id);
-            const { name, description } = req.body;
+            const { name, description, active } = req.body;
             const updateCategoryService = new UpdateCategoryService_1.UpdateCategoryService();
             const category = yield updateCategoryService.execute({
                 id: categoryId,
                 name,
-                description
+                description,
+                active
             });
             return res.json(category);
         });

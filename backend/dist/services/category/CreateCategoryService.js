@@ -15,17 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateCategoryService = void 0;
 const prisma_1 = __importDefault(require("../../prisma"));
 class CreateCategoryService {
-    execute({ name, description }) {
+    execute({ name, description, active }) {
         return __awaiter(this, void 0, void 0, function* () {
             const category = yield prisma_1.default.categoryServices.create({
                 data: {
                     name: name,
-                    description: description
+                    description: description,
+                    active: active
                 },
                 select: {
                     id: true,
                     name: true,
-                    description: true
+                    description: true,
+                    active: true
                 }
             });
             return category;
