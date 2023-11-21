@@ -11,13 +11,14 @@ class CreateServiceController {
             price: Yup.number().required(),
             duration: Yup.number().required(),
             categoryServiceId: Yup.number().required(),
+            active: Yup.boolean().required(),
         });
 
         if(!(await schema.isValid(req.body))){
             return res.status(400).json({error: "Validation fails"})
         }
 
-        const { name, description, price, duration, categoryServiceId } = req.body;
+        const { name, description, price, duration, categoryServiceId, active } = req.body;
 
         const createService = new CreateService();
 
@@ -26,7 +27,8 @@ class CreateServiceController {
             description,
             price,
             duration,
-            categoryServiceId
+            categoryServiceId,
+            active
         });
 
         return res.json(category);

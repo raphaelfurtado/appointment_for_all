@@ -11,6 +11,7 @@ import MenuIcon from "../../components/ui/MenuIcon";
 import Indicators from "../../components/ui/Indicators";
 import Checkbox from "../../components/ui/CheckBox";
 import Select from "../../components/ui/Select";
+import { AxiosError } from "axios";
 
 interface Service {
     id: number;
@@ -19,6 +20,8 @@ interface Service {
     price: number;
     duration: number;
     categoryService: CategoryService;
+    categoryServiceId: number | undefined;
+    active: boolean;
 }
 
 interface CategoryService {
@@ -69,11 +72,14 @@ export default function Category() {
             description: "",
             price: parseFloat(servicePrice),
             duration: parseInt(serviceDuration),
-            categoryServiceId: selectedCategory?.id
+            categoryServiceId: selectedCategory?.id,
+            active: checkboxValue,
         }
 
         try {
             const response = await api.post(`/service`, data);
+
+            console.log(data)
 
             if (response.status !== 200) {
                 toast.error("Erro ao cadastrar categoria!");
@@ -83,28 +89,41 @@ export default function Category() {
 
             toast.success("Registro salvo com sucesso!");
         } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message);
+            if (error instanceof AxiosError) {
+                if(error.response?.status === 400){
+                    toast.error("# - Erro de validação dos campos. Dados não foram salvos");
+                } else {
+                    toast.error("# - " + error.message);
+                }
             } else {
-                toast.error(String(error));
+                toast.error("@ - " + String(error));
             }
         }
 
         setServiceName('');
         setServicePrice('');
         setServiceDuration('');
-        setSelectedCategory(null);
         closeModal();
     };
 
     const handleEditSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        let data = {
+            name: service?.name,
+            description: "",
+            price: service?.price,
+            duration: service?.duration,
+            categoryServiceId: service?.categoryServiceId,
+            active: checkboxValue
+        }
+
+        //falta criar o update
+        console.log(data)
+
         try {
-            const response = await api.put(`/category/update/${category?.id}`, {
-                name: category?.name,
-                active: checkboxValue
-            });
+            const response = await api.put(`/service/update/${service?.id}`, data);
+    
 
             if (response.status !== 200) {
                 toast.error("Erro ao cadastrar categoria!");
@@ -114,10 +133,14 @@ export default function Category() {
 
             toast.success("Registro alterado com sucesso!");
         } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message);
+            if (error instanceof AxiosError) {
+                if(error.response?.status === 400){
+                    toast.error("# - Erro de validação dos campos. Dados não foram salvos");
+                } else {
+                    toast.error("# - " + error.message);
+                }
             } else {
-                toast.error(String(error));
+                toast.error("@ - " + String(error));
             }
         }
 
@@ -194,6 +217,8 @@ export default function Category() {
                 }
 
                 const data = await response.data;
+
+
                 setServices(data);
             } catch (error) {
                 if (error instanceof Error) {
@@ -285,6 +310,9 @@ export default function Category() {
                                                 Preço
                                             </th>
                                             <th scope="col" className="px-6 py-3">
+                                                Situação
+                                            </th>
+                                            <th scope="col" className="px-6 py-3">
                                                 Ações
                                             </th>
                                         </tr>
@@ -303,6 +331,9 @@ export default function Category() {
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     {service.price}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <Indicators active={service.active} />
                                                 </td>
                                                 <td>
                                                     <MenuIcon
@@ -358,7 +389,7 @@ export default function Category() {
                             />
                         </div>
                         <div className="col-span-2">
-                            <Select placeholder="Selecione a categoria" options={categories} onChange={setSelectedCategory} />
+                            <Select value={0} placeholder="Selecione a categoria" options={categories} onChange={setSelectedCategory} />
                         </div>
                         <div className="col-span-2">
                             <Checkbox active={true} onChange={handleCheckboxChange} />
@@ -383,7 +414,7 @@ export default function Category() {
                 </div>
 
                 <form onSubmit={handleEditSubmit} className="p-4 md:p-5">
-                    <div className="grid gap-4 mb-4 grid-cols-2">
+                    <div className="grid gap-4 mb-4 grid-cols-4">
                         <div className="col-span-2">
                             <InputForm
                                 placeholder="Nome do serviço"
@@ -393,7 +424,33 @@ export default function Category() {
                             />
                         </div>
                         <div className="col-span-2">
-
+                            <InputForm
+                                type="number"
+                                placeholder="Preço"
+                                value={service.price}
+                                onChange={(e) => setService({ ...service, price: parseFloat(e.target.value) })}
+                                required
+                            />
+                        </div>
+                        <div className="col-span-2">
+                            <InputForm
+                                type="number"
+                                placeholder="Duração"
+                                value={service.duration}
+                                onChange={(e) => setService({ ...service, duration: parseInt(e.target.value) })}
+                                required
+                            />
+                        </div>
+                        <div className="col-span-2">
+                            <Select
+                                value={service.categoryServiceId}
+                                placeholder="Selecione a categoria"
+                                options={categories}
+                                onChange={(selectedCategory) => setService({ ...service, categoryServiceId: selectedCategory?.id || undefined })}
+                            />
+                        </div>
+                        <div className="col-span-2">
+                            <Checkbox active={service.active} onChange={handleCheckboxChange} />
                         </div>
                     </div>
                     <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">

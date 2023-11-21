@@ -93,6 +93,7 @@ model Services {
   duration          Int
   categoryService   CategoryServices @relation(fields: [categoryServiceId], references: [id])
   categoryServiceId Int
+  active      Boolean
   created_at        DateTime         @default(now())
   updated_at        DateTime         @updatedAt
   appointments      Appointments[]

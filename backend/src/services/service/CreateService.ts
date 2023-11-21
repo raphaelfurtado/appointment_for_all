@@ -7,10 +7,11 @@ interface ServiceRequest {
     price: number;
     duration: number;
     categoryServiceId: number;
+    active: boolean;
 }
 
 class CreateService {
-    async execute({ name, description, price, duration, categoryServiceId }: ServiceRequest) {
+    async execute({ name, description, price, duration, categoryServiceId, active }: ServiceRequest) {
 
         const service = await prismaClient.services.create({
             data: {
@@ -18,7 +19,8 @@ class CreateService {
                 description: description,
                 price: price,
                 duration: duration,
-                categoryServiceId
+                categoryServiceId: categoryServiceId,
+                active: active,
 
             },
             select:{
@@ -27,7 +29,8 @@ class CreateService {
                 description: true,
                 price: true,
                 duration: true,
-                categoryServiceId: true
+                categoryServiceId: true,
+                active: true
             }
         });
 

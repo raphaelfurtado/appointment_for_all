@@ -25,6 +25,7 @@ class ListService {
                 description: true,
                 price: true,
                 duration: true,
+                active: true,
                 categoryService:{
                     select: {
                         id: true,
