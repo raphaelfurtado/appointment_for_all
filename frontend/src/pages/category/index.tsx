@@ -120,6 +120,9 @@ export default function Category() {
     };
 
     const handleMenuClick = async (item: string, categoryId: number) => {
+
+        setCategory(undefined);
+
         switch (item) {
             case 'Editar':
                 try {

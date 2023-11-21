@@ -118,9 +118,6 @@ export default function Category() {
             active: checkboxValue
         }
 
-        //falta criar o update
-        console.log(data)
-
         try {
             const response = await api.put(`/service/update/${service?.id}`, data);
     
@@ -169,6 +166,9 @@ export default function Category() {
     };
 
     const handleMenuClick = async (item: string, serviceId: number) => {
+        
+        setService(undefined);
+
         switch (item) {
             case 'Editar':
                 try {
